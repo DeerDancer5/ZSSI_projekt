@@ -1,9 +1,13 @@
 from sklearn.model_selection import train_test_split
+
+from src.modeling.feature_importance import visualize_feature_importance
 from src.utils.io import load_titanic
 from src.preprocessing.features import add_feature_engineering
 from src.modeling.pipeline import build_full_pipeline
 from src.modeling.tuning import build_grid_search
 from src.modeling.evaluation import plot_confusion, plot_roc
+import joblib
+
 
 def main():
 
@@ -53,6 +57,11 @@ def main():
 
     plot_confusion(y_test, y_pred)
     plot_roc(y_test, y_proba)
+
+    visualize_feature_importance(best_model, X_train)
+
+    joblib.dump(best_model, "model.pkl")
+    print("Saved best model to model.pkl")
 
     print("\nDone!")
 
